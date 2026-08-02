@@ -78,3 +78,13 @@ test("all exported internal links resolve to static files", async () => {
   }
   assert.deepEqual(missing, []);
 });
+
+test("homepage featured notes link to real exported notes", async () => {
+  const homepage = await readFile(path.join(output, "index.html"), "utf8");
+  const featured = [...homepage.matchAll(/<a class="post" href="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(featured.length, 3);
+  for (const href of featured) {
+    const target = path.join(output, decodeURIComponent(href).replace(/^\//, ""), "index.html");
+    assert.ok(existsSync(target), href);
+  }
+});

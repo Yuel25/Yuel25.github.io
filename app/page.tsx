@@ -25,11 +25,11 @@ const copy = {
     writingEyebrow: "03 / 文章",
     writingTitle: "一些近期思考",
     posts: [
-      ["把个人网站当作一座庭院", "2026.07", "为什么在快速流动的平台之外，我们仍然需要一块自己的数字土地。"],
-      ["保持轻盈的创造系统", "2026.06", "关于工具、习惯，以及如何让想法更自然地落地。"],
-      ["设计中的留白与呼吸", "2026.05", "少一点拥挤，多一点让内容被看见的空间。"],
+      ["2026 七月看番计划", "2026.07", "七月新番的个人观看清单与记录。", "/notes/2-Aeras/动漫/2026七月看番计划/"],
+      ["2026 四月看番计划", "2026.07", "四月新番的个人观看清单与记录。", "/notes/2-Aeras/动漫/2026四月看番计划/"],
+      ["OI-ICPC 算法模板", "2026.07", "算法竞赛常用数据结构与算法模板汇总。", "/notes/3-Resources/算法竞赛/OI-ICPC算法模板/"],
     ],
-    soon: "文章即将发布",
+    soon: "阅读笔记 →",
     contactEyebrow: "04 / 联系",
     contactTitle: "有好点子？一起聊聊。",
     contactBody: "如果你对我的作品感兴趣，或想一起创造些什么，欢迎通过 GitHub 联系我。",
@@ -57,11 +57,11 @@ const copy = {
     writingEyebrow: "03 / WRITING",
     writingTitle: "Recent thoughts",
     posts: [
-      ["A Personal Website as a Garden", "2026.07", "Why we still need a piece of digital land to call our own."],
-      ["A Lighter Creative System", "2026.06", "On tools, habits, and helping ideas find their way into the world."],
-      ["Space and Breath in Design", "2026.05", "Less crowding, more room for the things that matter to be seen."],
+      ["July 2026 Anime List", "2026.07", "My personal watch list and notes for the July season.", "/notes/2-Aeras/动漫/2026七月看番计划/"],
+      ["April 2026 Anime List", "2026.07", "My personal watch list and notes for the April season.", "/notes/2-Aeras/动漫/2026四月看番计划/"],
+      ["OI-ICPC Algorithm Templates", "2026.07", "A collection of common competitive-programming templates.", "/notes/3-Resources/算法竞赛/OI-ICPC算法模板/"],
     ],
-    soon: "Writing coming soon",
+    soon: "Read note →",
     contactEyebrow: "04 / CONTACT",
     contactTitle: "Have an idea? Let’s talk.",
     contactBody: "If my work resonates with you, or you’d like to make something together, come say hello on GitHub.",
@@ -116,7 +116,7 @@ export default function Home() {
 
       <section className="section writing" id="writing">
         <p className="eyebrow">{t.writingEyebrow}</p><h2>{t.writingTitle}</h2>
-        <div className="post-list">{t.posts.map((post, i) => <article className="post" key={post[0]}><span className="post-number">0{i + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></article>)}</div>
+        <div className="post-list">{t.posts.map((post, i) => <Link className="post" href={post[3]} key={post[0]}><span className="post-number">0{i + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></Link>)}</div>
         <Link className="button secondary notes-link" href="/notes/">{language === "zh" ? "浏览公开笔记" : "Browse public notes"}<span>→</span></Link>
       </section>
 
