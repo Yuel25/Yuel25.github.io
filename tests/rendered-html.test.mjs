@@ -1,91 +1,80 @@
 import assert from "node:assert/strict";
-import { access, readFile, readdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { readFile, readdir } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-const templateRoot = new URL("../", import.meta.url);
-const previewRoot = new URL("../app/_sites-preview/", import.meta.url);
+const root = path.resolve(import.meta.dirname, "..");
+const output = path.join(root, "out");
+const content = path.join(root, "content", "notes");
 
-async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+async function walk(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...await walk(fullPath));
+    else files.push(fullPath);
+  }
+  return files;
 }
 
-test("server-renders the starter loading skeleton", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+test("exports every public note without private journal content", async () => {
+  const { notes } = JSON.parse(await readFile(path.join(content, "manifest.json"), "utf8"));
+  assert.equal(notes.length, 12);
+  assert.ok(notes.every((note) => !/(?:^|\/)5?-?Journals(?:\/|$)/i.test(note.slug)));
 
-  const html = await response.text();
-  assert.match(html, developmentPreviewMeta);
-  assert.match(html, /<title>Your site is taking shape<\/title>/i);
-  assert.match(html, /Building your site/);
-  assert.match(html, /Your site is taking shape/);
-  assert.match(
-    html,
-    /Your first version will appear here automatically when it’s ready\./,
-  );
-  assert.doesNotMatch(html, /Codex/);
-  assert.match(html, /react-loading-skeleton/);
-  assert.match(html, /role="status"/);
+  const contentFiles = await walk(content);
+  const privateMarkers = /5-Journals|(?:^|[\\/])Journals(?:[\\/]|$)/i;
+  const localEnvironmentMarkers = /(?:file:\/{2,3}|(?<![A-Za-z0-9])[A-Za-z]:\\(?=[\p{L}\p{N}._-])|\\\\[^\\\s]+\\|\b(?:localhost|127\.0\.0\.1|::1)\b|\b(?:10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.)\d{1,3}\.\d{1,3})/iu;
+  for (const file of contentFiles) {
+    const published = await readFile(file, "utf8");
+    assert.doesNotMatch(published, privateMarkers, path.relative(root, file));
+    assert.doesNotMatch(published, localEnvironmentMarkers, path.relative(root, file));
+  }
+
+  for (const note of notes) {
+    assert.ok(existsSync(path.join(output, "notes", note.slug, "index.html")), note.slug);
+  }
 });
 
-test("keeps the loading skeleton scoped and disposable", async () => {
-  const [preview, css, page, layout, packageJson, files] = await Promise.all([
-    readFile(new URL("SkeletonPreview.tsx", previewRoot), "utf8"),
-    readFile(new URL("preview.css", previewRoot), "utf8"),
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
-    readdir(previewRoot),
-  ]);
+test("redacts local environment details from rendered pages", async () => {
+  const overview = await readFile(path.join(output, "notes", "3-Resources", "课程复习", "25-26春夏学期", "课程复习总览", "index.html"), "utf8");
+  const body = overview.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
+  assert.match(body, /本地路径已隐藏/);
+  assert.doesNotMatch(body, /(?:file:\/{2,3}|[A-Za-z]:\\|localhost|127\.0\.0\.1)/i);
+});
 
-  assert.deepEqual(files.sort(), ["SkeletonPreview.tsx", "preview.css"]);
-  assert.match(preview, /from "react-loading-skeleton"/);
-  assert.match(preview, /baseColor="#eceae7"/);
-  assert.match(preview, /highlightColor="#f9f8f6"/);
-  assert.match(preview, /duration=\{2\.8\}/);
-  assert.match(preview, /sites-skeleton-search-placeholder/);
-  assert.match(packageJson, /"react-loading-skeleton": "3\.5\.0"/);
+test("renders Obsidian links and mathematics as HTML", async () => {
+  const overview = await readFile(path.join(output, "notes", "3-Resources", "课程复习", "25-26春夏学期", "课程复习总览", "index.html"), "utf8");
+  const overviewBody = overview.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
+  assert.ok(overviewBody);
+  assert.doesNotMatch(overviewBody, /\[\[[^\]]+\]\]/);
+  assert.doesNotMatch(overviewBody, /<li>\[[^<]+\]\(\/notes\//);
+  assert.match(overviewBody, /href="\/notes\/3-Resources\/%E8%AF%BE%E7%A8%8B%E5%A4%8D%E4%B9%A0\//);
 
-  const shellIndex = preview.indexOf('className="sites-skeleton-shell"');
-  const statusIndex = preview.indexOf('className="sites-skeleton-status"');
-  assert.ok(shellIndex >= 0 && statusIndex > shellIndex);
-  assert.match(css, /position:\s*fixed/);
-  assert.match(css, /inset:\s*0/);
-  assert.match(css, /opacity:\s*0\.52/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.doesNotMatch(css, /#020617|canvas|pets|progress/i);
-  assert.doesNotMatch(
-    preview,
-    /loading-spinner|status-mark|status-progress|canvas|cookie|random/i,
-  );
+  const physics = await readFile(path.join(output, "notes", "3-Resources", "课程复习", "25-26春夏学期", "大物24-25期末解答", "index.html"), "utf8");
+  const physicsBody = physics.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
+  assert.ok(physicsBody);
+  assert.match(physicsBody, /class="katex(?:-display)?"/);
+  assert.doesNotMatch(physicsBody, /<p>\$\$/);
+});
 
-  assert.match(page, /export const metadata:\s*Metadata/);
-  assert.match(page, /"codex-preview": "development"/);
-  assert.match(page, /<SkeletonPreview \/>/);
-  assert.match(layout, /title:\s*"Starter Project"/);
-  assert.doesNotMatch(layout, /codex-preview|_sites-preview|themeColor|\bViewport\b/);
-  assert.doesNotMatch(css, /(^|\s)(html|body)\s*\{/m);
-
-  await assert.rejects(
-    access(new URL("public/_sites-preview", templateRoot)),
-  );
+test("all exported internal links resolve to static files", async () => {
+  const htmlFiles = (await walk(output)).filter((file) => file.endsWith(".html") && path.basename(file) !== "404.html");
+  const missing = [];
+  for (const file of htmlFiles) {
+    const html = await readFile(file, "utf8");
+    for (const match of html.matchAll(/href="([^"]+)"/g)) {
+      const href = match[1];
+      if (!href.startsWith("/") || href.startsWith("/_next/")) continue;
+      const pathname = decodeURIComponent(href.split(/[?#]/)[0]);
+      if (pathname === "/") continue;
+      const target = path.join(output, pathname.replace(/^\//, ""));
+      if (![target, path.join(target, "index.html"), `${target}.html`].some(existsSync)) {
+        missing.push(`${path.relative(output, file)} -> ${href}`);
+      }
+    }
+  }
+  assert.deepEqual(missing, []);
 });

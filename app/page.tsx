@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 const copy = {
   zh: {
@@ -116,6 +117,7 @@ export default function Home() {
       <section className="section writing" id="writing">
         <p className="eyebrow">{t.writingEyebrow}</p><h2>{t.writingTitle}</h2>
         <div className="post-list">{t.posts.map((post, i) => <article className="post" key={post[0]}><span className="post-number">0{i + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></article>)}</div>
+        <Link className="button secondary notes-link" href="/notes/">{language === "zh" ? "浏览公开笔记" : "Browse public notes"}<span>→</span></Link>
       </section>
 
       <section className="contact" id="contact"><p className="eyebrow">{t.contactEyebrow}</p><h2>{t.contactTitle}</h2><p>{t.contactBody}</p><a className="button primary" href="https://github.com/Yuel25" target="_blank" rel="noreferrer">{t.contactButton}<span>↗</span></a></section>
