@@ -7,7 +7,7 @@ import { galleryImages } from "./gallery.generated";
 
 const copy = {
   zh: {
-    nav: ["关于", "作品", "文章", "联系"],
+    nav: ["关于", "画廊", "文章", "联系"],
     hello: "你好，我是 Yuel。",
     intro: "我在代码、设计与文字之间，创造安静而有温度的数字体验。",
     location: "中国 · 在互联网的一隅",
