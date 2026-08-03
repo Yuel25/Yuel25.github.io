@@ -5,7 +5,7 @@ import markedKatex from "marked-katex-extension";
 import sanitizeHtml from "sanitize-html";
 
 const contentRoot = path.join(process.cwd(), "content", "notes");
-marked.use(markedKatex({ throwOnError: false, strict: "ignore" }));
+marked.use(markedKatex({ throwOnError: false, strict: "ignore", nonStandard: true }));
 
 export type NoteSummary = { slug: string; title: string; section: string; updatedAt: string };
 type Manifest = { notes: NoteSummary[]; links: Record<string, string> };
@@ -14,9 +14,9 @@ function normalizeMathDelimiters(markdown: string) {
   return markdown.split(/(```[\s\S]*?```|`[^`\r\n]*`)/g).map((part, index) => {
     if (index % 2 === 1) return part;
     return part
-      .replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, "\n$$\n$1\n$$\n")
+      .replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, (_, formula: string) => `\n$$\n${formula.trim()}\n$$\n`)
       .replace(/\\\(([\s\S]*?)\\\)/g, (_, formula: string) => `$${formula}$`)
-      .replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, "\n$$\n$1\n$$\n");
+      .replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, (_, formula: string) => `\n$$\n${formula.trim()}\n$$\n`);
   }).join("");
 }
 
@@ -52,7 +52,7 @@ export function getNote(slugParts: string[]) {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
       "img", "details", "summary", "span", "math", "semantics", "annotation", "mrow", "mi", "mo", "mn",
       "mtext", "mspace", "msup", "msub", "msubsup", "mfrac", "msqrt", "mroot", "mtable", "mtr", "mtd",
-      "mover", "munder", "munderover", "mpadded", "mphantom",
+      "mover", "munder", "munderover", "mpadded", "mphantom", "svg", "path",
     ]),
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
@@ -60,6 +60,8 @@ export function getNote(slugParts: string[]) {
       span: ["class", "style", "aria-hidden"],
       math: ["xmlns"],
       annotation: ["encoding"],
+      svg: ["xmlns", "width", "height", "viewBox", "preserveAspectRatio"],
+      path: ["d"],
     },
     allowedSchemes: ["http", "https", "mailto"],
   });

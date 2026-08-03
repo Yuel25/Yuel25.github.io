@@ -56,10 +56,17 @@ test("renders Obsidian links and mathematics as HTML", async () => {
   const physics = await readFile(path.join(output, "notes", "3-Resources", "课程复习", "25-26春夏学期", "大物24-25期末解答", "index.html"), "utf8");
   const physicsBody = physics.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
   assert.ok(physicsBody);
-  assert.match(physicsBody, /class="katex(?:-display)?"/);
+  assert.match(physicsBody, /class="katex-display"/);
   assert.match(physicsBody, /<annotation encoding="application\/x-tex">M_0=2\\gamma m_0<\/annotation>/);
   assert.doesNotMatch(physicsBody, /\\\(|\\\)|\\\[|\\\]/);
   assert.doesNotMatch(physicsBody, /<p>\$\$/);
+
+  const coursePhysics = await readFile(path.join(output, "notes", "3-Resources", "课程复习", "25-26春夏学期", "大学物理（乙）I 复习笔记", "index.html"), "utf8");
+  const coursePhysicsBody = coursePhysics.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
+  assert.equal([...coursePhysicsBody.matchAll(/class="katex-display"/g)].length, 21);
+  assert.match(coursePhysicsBody, /<svg[^>]*>/);
+  assert.match(coursePhysicsBody, /<path[^>]*d="[^"]+"/);
+  assert.doesNotMatch(coursePhysicsBody, /\$[^$\n]+\$/);
 });
 
 test("all exported internal links resolve to static files", async () => {
