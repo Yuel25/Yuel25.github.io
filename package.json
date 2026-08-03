@@ -8,7 +8,7 @@
   "scripts": {
     "notes:sync": "node scripts/sync-obsidian.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && vite build",
     "start": "next start",
     "test": "npm run build && node --test",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
