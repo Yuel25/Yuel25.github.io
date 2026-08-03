@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { galleryImages } from "./gallery.generated";
 
 const copy = {
   zh: {
@@ -9,19 +11,18 @@ const copy = {
     hello: "你好，我是 Yuel。",
     intro: "我在代码、设计与文字之间，创造安静而有温度的数字体验。",
     location: "中国 · 在互联网的一隅",
-    explore: "看看我的作品",
+    explore: "看看今日画选",
     github: "访问 GitHub",
     aboutEyebrow: "01 / 关于",
-    aboutTitle: "保持好奇，认真创造。",
+    aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "这里是我的个人主页，也是我收集灵感、记录成长的数字庭院。我喜欢把复杂的问题梳理清楚，再用简单、自然的方式呈现出来。",
-    facts: ["开发与创作", "持续学习中", "开放合作"],
-    workEyebrow: "02 / 精选作品",
-    workTitle: "最近在做的事",
-    projects: [
-      ["个人数字花园", "一个用于沉淀知识、灵感与长期思考的私人空间。", "设计 · 开发"],
-      ["轻量效率工具", "从日常摩擦中寻找问题，用小工具让工作流更顺畅。", "产品 · 前端"],
-      ["视觉实验室", "关于排版、颜色和交互节奏的小型创意实验。", "创意编码"],
-    ],
+    workEyebrow: "02 / 每日画选",
+    workTitle: "今日的三束光",
+    workBody: "从我的私人收藏中，每天抽取三幅画面。明天零点，它们会悄悄换一组。",
+    daily: "每日 00:00 更新",
+    collection: "私人收藏",
+    openArtwork: "查看完整画面",
+    closeArtwork: "关闭画面",
     writingEyebrow: "03 / 文章",
     writingTitle: "一些近期思考",
     posts: [
@@ -37,23 +38,22 @@ const copy = {
     footer: "认真生活，自由创造。",
   },
   en: {
-    nav: ["About", "Work", "Writing", "Contact"],
+    nav: ["About", "Gallery", "Writing", "Contact"],
     hello: "Hi, I’m Yuel.",
     intro: "I create quiet, thoughtful digital experiences at the intersection of code, design, and words.",
     location: "China · A small corner of the web",
-    explore: "Explore my work",
+    explore: "See today’s selection",
     github: "Visit GitHub",
     aboutEyebrow: "01 / ABOUT",
-    aboutTitle: "Stay curious. Make with care.",
+    aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "This is my personal home and a digital garden for ideas, inspiration, and growth. I enjoy making sense of complex problems, then presenting them in ways that feel simple and natural.",
-    facts: ["Developer & maker", "Always learning", "Open to collaborate"],
-    workEyebrow: "02 / SELECTED WORK",
-    workTitle: "Things I’m making",
-    projects: [
-      ["Digital Garden", "A personal space for cultivating knowledge, inspiration, and long-term thinking.", "Design · Development"],
-      ["Tiny Productivity Tools", "Small tools that remove everyday friction and make workflows feel effortless.", "Product · Frontend"],
-      ["Visual Playground", "Small creative experiments in type, color, and the rhythm of interaction.", "Creative coding"],
-    ],
+    workEyebrow: "02 / DAILY GALLERY",
+    workTitle: "Three quiet sparks, today",
+    workBody: "Three images are drawn from my private collection each day. At midnight, a new set quietly takes their place.",
+    daily: "Refreshes daily at 00:00",
+    collection: "Private collection",
+    openArtwork: "View full artwork",
+    closeArtwork: "Close artwork",
     writingEyebrow: "03 / WRITING",
     writingTitle: "Recent thoughts",
     posts: [
@@ -70,9 +70,67 @@ const copy = {
   },
 } as const;
 
+function getShanghaiDateKey() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const value = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+  return `${value("year")}-${value("month")}-${value("day")}`;
+}
+
+function getDailySelection(dateKey: string) {
+  let seed = [...dateKey].reduce((value, character) => (value * 31 + character.charCodeAt(0)) >>> 0, 2166136261);
+  const indexes = galleryImages.map((_, index) => index);
+
+  for (let index = indexes.length - 1; index > 0; index -= 1) {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    const swapIndex = seed % (index + 1);
+    [indexes[index], indexes[swapIndex]] = [indexes[swapIndex], indexes[index]];
+  }
+
+  return indexes.slice(0, 3);
+}
+
+function formatGalleryDate(dateKey: string, language: "zh" | "en") {
+  if (!dateKey) return "···· · ··";
+  const [year, month, day] = dateKey.split("-").map(Number);
+  return new Intl.DateTimeFormat(language === "zh" ? "zh-CN" : "en-US", {
+    year: "numeric",
+    month: language === "zh" ? "2-digit" : "short",
+    day: "2-digit",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(year, month - 1, day)));
+}
+
 export default function Home() {
   const [language, setLanguage] = useState<"zh" | "en">("zh");
+  const [dailyIndexes, setDailyIndexes] = useState([0, 1, 2]);
+  const [dailyDate, setDailyDate] = useState("");
+  const [activeArtwork, setActiveArtwork] = useState<string | null>(null);
   const t = copy[language];
+
+  useEffect(() => {
+    const dateKey = getShanghaiDateKey();
+    setDailyDate(dateKey);
+    setDailyIndexes(getDailySelection(dateKey));
+  }, []);
+
+  useEffect(() => {
+    if (!activeArtwork) return;
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveArtwork(null);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [activeArtwork]);
 
   return (
     <main>
@@ -104,24 +162,66 @@ export default function Home() {
 
       <section className="section about" id="about">
         <div><p className="eyebrow">{t.aboutEyebrow}</p><h2>{t.aboutTitle}</h2></div>
-        <div className="about-copy"><p>{t.aboutBody}</p><div className="facts">{t.facts.map((fact, i) => <span key={fact}><b>0{i + 1}</b>{fact}</span>)}</div></div>
+        <div className="about-copy">
+          <div className="avatar-frame">
+            <Image className="about-avatar" src="/avatar.png" alt={language === "zh" ? "Yuel 的头像" : "Portrait of Yuel"} width={260} height={260} priority />
+          </div>
+          <p>{t.aboutBody}</p>
+        </div>
       </section>
 
       <section className="section work" id="work">
-        <p className="eyebrow">{t.workEyebrow}</p><h2>{t.workTitle}</h2>
-        <div className="project-grid">
-          {t.projects.map((project, i) => <article className="project" key={project[0]}><div className={`project-art art-${i + 1}`}><span>0{i + 1}</span></div><p className="tag">{project[2]}</p><h3>{project[0]}</h3><p>{project[1]}</p><span className="arrow">↗</span></article>)}
+        <div className="work-heading">
+          <div>
+            <p className="eyebrow">{t.workEyebrow}</p>
+            <h2>{t.workTitle}</h2>
+            <p className="work-body">{t.workBody}</p>
+          </div>
+          <div className="gallery-meta" aria-label={t.daily}>
+            <span>{formatGalleryDate(dailyDate, language)}</span>
+            <i />
+            <span>{t.daily}</span>
+            <small>03 / {String(galleryImages.length).padStart(2, "0")}</small>
+          </div>
+        </div>
+
+        <div className="daily-gallery">
+          {dailyIndexes.map((artworkIndex, index) => {
+            const artwork = galleryImages[artworkIndex];
+            return (
+              <button
+                className="gallery-card"
+                key={artwork}
+                onClick={() => setActiveArtwork(artwork)}
+                aria-label={`${t.openArtwork} ${index + 1}`}
+              >
+                <Image className="gallery-image" src={artwork} alt="" fill sizes={index === 0 ? "(max-width: 800px) 100vw, 62vw" : "(max-width: 800px) 100vw, 32vw"} />
+                <span className="gallery-wash" />
+                <span className="gallery-number">0{index + 1}</span>
+                <span className="gallery-caption"><small>{t.collection}</small>{t.openArtwork}<i>↗</i></span>
+              </button>
+            );
+          })}
         </div>
       </section>
 
       <section className="section writing" id="writing">
         <p className="eyebrow">{t.writingEyebrow}</p><h2>{t.writingTitle}</h2>
-        <div className="post-list">{t.posts.map((post, i) => <Link className="post" href={post[3]} key={post[0]}><span className="post-number">0{i + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></Link>)}</div>
+        <div className="post-list">{t.posts.map((post, index) => <Link className="post" href={post[3]} key={post[0]}><span className="post-number">0{index + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></Link>)}</div>
         <Link className="button secondary notes-link" href="/notes/">{language === "zh" ? "浏览公开笔记" : "Browse public notes"}<span>→</span></Link>
       </section>
 
       <section className="contact" id="contact"><p className="eyebrow">{t.contactEyebrow}</p><h2>{t.contactTitle}</h2><p>{t.contactBody}</p><a className="button primary" href="https://github.com/Yuel25" target="_blank" rel="noreferrer">{t.contactButton}<span>↗</span></a></section>
       <footer><a className="brand" href="#top">Yuel<span>25</span></a><p>{t.footer}</p><p>© 2026 Yuel</p></footer>
+
+      {activeArtwork && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label={t.openArtwork} onClick={() => setActiveArtwork(null)}>
+          <button className="lightbox-close" onClick={() => setActiveArtwork(null)} aria-label={t.closeArtwork}>×</button>
+          <div className="lightbox-stage" onClick={(event) => event.stopPropagation()}>
+            <Image className="lightbox-image" src={activeArtwork} alt="" fill sizes="96vw" priority />
+          </div>
+        </div>
+      )}
     </main>
   );
 }
