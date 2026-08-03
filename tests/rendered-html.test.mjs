@@ -57,6 +57,8 @@ test("renders Obsidian links and mathematics as HTML", async () => {
   const physicsBody = physics.match(/<div class="markdown-body">([\s\S]*?)<\/div><\/article>/)?.[1] ?? "";
   assert.ok(physicsBody);
   assert.match(physicsBody, /class="katex(?:-display)?"/);
+  assert.match(physicsBody, /<annotation encoding="application\/x-tex">M_0=2\\gamma m_0<\/annotation>/);
+  assert.doesNotMatch(physicsBody, /\\\(|\\\)|\\\[|\\\]/);
   assert.doesNotMatch(physicsBody, /<p>\$\$/);
 });
 

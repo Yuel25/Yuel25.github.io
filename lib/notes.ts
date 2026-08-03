@@ -10,6 +10,16 @@ marked.use(markedKatex({ throwOnError: false, strict: "ignore" }));
 export type NoteSummary = { slug: string; title: string; section: string; updatedAt: string };
 type Manifest = { notes: NoteSummary[]; links: Record<string, string> };
 
+function normalizeMathDelimiters(markdown: string) {
+  return markdown.split(/(```[\s\S]*?```|`[^`\r\n]*`)/g).map((part, index) => {
+    if (index % 2 === 1) return part;
+    return part
+      .replace(/\\\[\s*([\s\S]*?)\s*\\\]/g, "\n$$\n$1\n$$\n")
+      .replace(/\\\(([\s\S]*?)\\\)/g, (_, formula: string) => `$${formula}$`)
+      .replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, "\n$$\n$1\n$$\n");
+  }).join("");
+}
+
 function manifest(): Manifest {
   return JSON.parse(fs.readFileSync(path.join(contentRoot, "manifest.json"), "utf8"));
 }
@@ -36,10 +46,7 @@ export function getNote(slugParts: string[]) {
     return `[${text}](/notes/${encodedSlug}/${anchor})`;
   });
   markdown = markdown.replace(/^> \[!(\w+)\][+-]?\s*(.*)$/gm, "> **$2**");
-  markdown = markdown.split(/(```[\s\S]*?```)/g).map((part, index) => {
-    if (index % 2 === 1) return part;
-    return part.replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, "\n$$\n$1\n$$\n");
-  }).join("");
+  markdown = normalizeMathDelimiters(markdown);
   const rendered = marked.parse(markdown, { gfm: true, breaks: false }) as string;
   const html = sanitizeHtml(rendered, {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat([
