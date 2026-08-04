@@ -49,5 +49,8 @@ export const galleryImages = [
   "/gallery/047.webp",
   "/gallery/048.webp",
   "/gallery/049.webp",
-  "/gallery/050.webp"
+  "/gallery/050.webp",
+  "/gallery/051.webp",
+  "/gallery/052.webp",
+  "/gallery/053.webp"
 ] as const;
