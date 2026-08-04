@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { galleryImages } from "./gallery.generated";
@@ -81,6 +81,8 @@ function getShanghaiDateKey() {
   return `${value("year")}-${value("month")}-${value("day")}`;
 }
 
+const subscribeToDate = () => () => {};
+
 function getDailySelection(dateKey: string) {
   let seed = [...dateKey].reduce((value, character) => (value * 31 + character.charCodeAt(0)) >>> 0, 2166136261);
   const indexes = galleryImages.map((_, index) => index);
@@ -107,16 +109,10 @@ function formatGalleryDate(dateKey: string, language: "zh" | "en") {
 
 export default function Home() {
   const [language, setLanguage] = useState<"zh" | "en">("zh");
-  const [dailyIndexes, setDailyIndexes] = useState([0, 1, 2]);
-  const [dailyDate, setDailyDate] = useState("");
   const [activeArtwork, setActiveArtwork] = useState<string | null>(null);
+  const dailyDate = useSyncExternalStore(subscribeToDate, getShanghaiDateKey, () => "");
+  const dailyIndexes = dailyDate ? getDailySelection(dailyDate) : [0, 1, 2];
   const t = copy[language];
-
-  useEffect(() => {
-    const dateKey = getShanghaiDateKey();
-    setDailyDate(dateKey);
-    setDailyIndexes(getDailySelection(dateKey));
-  }, []);
 
   useEffect(() => {
     if (!activeArtwork) return;

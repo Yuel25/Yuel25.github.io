@@ -15,7 +15,13 @@ export default async function NotePage({ params }: { params: Promise<{ slug: str
   const note = getNote((await params).slug);
   if (!note) notFound();
   return <main className="article-shell">
-    <header className="notes-header"><Link className="brand" href="/">Yuel<span>25</span></Link><Link href="/notes/">全部笔记</Link></header>
+    <header className="notes-header">
+      <Link className="brand" href="/">Yuel<span>25</span></Link>
+      <nav className="notes-actions" aria-label="笔记导航">
+        <Link className="notes-action" href="/">返回首页</Link>
+        <Link className="notes-action" href="/notes/">全部笔记</Link>
+      </nav>
+    </header>
     <article><p className="eyebrow">{note.section.replace(/^\d+-/, "")}</p><h1>{note.title}</h1><time>更新于 {new Intl.DateTimeFormat("zh-CN", { dateStyle: "long" }).format(new Date(note.updatedAt))}</time><div className="markdown-body" dangerouslySetInnerHTML={{ __html: note.html }} /></article>
   </main>;
 }
