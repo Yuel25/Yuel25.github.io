@@ -7,7 +7,7 @@ import { galleryImages } from "./gallery.generated";
 
 const copy = {
   zh: {
-    nav: ["关于", "画廊", "文章", "联系"],
+    nav: ["关于", "项目", "画廊", "文章", "联系"],
     hello: "你好，我是 Yuel。",
     intro: "我在代码、设计与文字之间，创造安静而有温度的数字体验。",
     location: "中国 · 在互联网的一隅",
@@ -16,14 +16,23 @@ const copy = {
     aboutEyebrow: "01 / 关于",
     aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "这里是我的个人主页，也是我收集灵感、记录成长的数字庭院。我喜欢把复杂的问题梳理清楚，再用简单、自然的方式呈现出来。",
-    workEyebrow: "02 / 每日画选",
+    projectEyebrow: "02 / 新项目",
+    projectStatus: "0.1.0 · 预览版",
+    projectTitle: "dsh-desktop",
+    projectTagline: "把 DeepSeek Harness，安静地放进桌面。",
+    projectBody: "一个面向 Windows 的非官方 DeepSeek Harness 桌面客户端。无需常驻命令行窗口，即可启动、连接并管理 DSH Web UI。",
+    projectFeatures: ["原生 Electron 窗口", "系统托盘与单实例运行", "自动连接本地 DSH 服务"],
+    projectSource: "查看源码",
+    projectRelease: "下载预览版",
+    projectNote: "Windows x64 · TypeScript · Electron · MIT",
+    workEyebrow: "03 / 每日画选",
     workTitle: "今日的三束光",
     workBody: "从我的私人收藏中，每天抽取三幅画面。明天零点，它们会悄悄换一组。",
     daily: "每日 00:00 更新",
     collection: "私人收藏",
     openArtwork: "查看完整画面",
     closeArtwork: "关闭画面",
-    writingEyebrow: "03 / 文章",
+    writingEyebrow: "04 / 文章",
     writingTitle: "一些近期思考",
     posts: [
       ["2026 七月看番计划", "2026.07", "七月新番的个人观看清单与记录。", "/notes/2-Aeras/动漫/2026七月看番计划/"],
@@ -31,14 +40,14 @@ const copy = {
       ["OI-ICPC 算法模板", "2026.07", "算法竞赛常用数据结构与算法模板汇总。", "/notes/3-Resources/算法竞赛/OI-ICPC算法模板/"],
     ],
     soon: "阅读笔记 →",
-    contactEyebrow: "04 / 联系",
+    contactEyebrow: "05 / 联系",
     contactTitle: "有好点子？一起聊聊。",
     contactBody: "如果你对我的作品感兴趣，或想一起创造些什么，欢迎通过 GitHub 联系我。",
     contactButton: "在 GitHub 找到我",
     footer: "认真生活，自由创造。",
   },
   en: {
-    nav: ["About", "Gallery", "Writing", "Contact"],
+    nav: ["About", "Project", "Gallery", "Writing", "Contact"],
     hello: "Hi, I’m Yuel.",
     intro: "I create quiet, thoughtful digital experiences at the intersection of code, design, and words.",
     location: "China · A small corner of the web",
@@ -47,14 +56,23 @@ const copy = {
     aboutEyebrow: "01 / ABOUT",
     aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "This is my personal home and a digital garden for ideas, inspiration, and growth. I enjoy making sense of complex problems, then presenting them in ways that feel simple and natural.",
-    workEyebrow: "02 / DAILY GALLERY",
+    projectEyebrow: "02 / NEW PROJECT",
+    projectStatus: "0.1.0 · Preview",
+    projectTitle: "dsh-desktop",
+    projectTagline: "DeepSeek Harness, quietly at home on your desktop.",
+    projectBody: "An unofficial Windows desktop client for DeepSeek Harness. Launch, connect to, and manage the DSH Web UI without keeping a command-line window open.",
+    projectFeatures: ["Native Electron window", "System tray & single instance", "Automatic local DSH connection"],
+    projectSource: "View source",
+    projectRelease: "Download preview",
+    projectNote: "Windows x64 · TypeScript · Electron · MIT",
+    workEyebrow: "03 / DAILY GALLERY",
     workTitle: "Three quiet sparks, today",
     workBody: "Three images are drawn from my private collection each day. At midnight, a new set quietly takes their place.",
     daily: "Refreshes daily at 00:00",
     collection: "Private collection",
     openArtwork: "View full artwork",
     closeArtwork: "Close artwork",
-    writingEyebrow: "03 / WRITING",
+    writingEyebrow: "04 / WRITING",
     writingTitle: "Recent thoughts",
     posts: [
       ["July 2026 Anime List", "2026.07", "My personal watch list and notes for the July season.", "/notes/2-Aeras/动漫/2026七月看番计划/"],
@@ -62,7 +80,7 @@ const copy = {
       ["OI-ICPC Algorithm Templates", "2026.07", "A collection of common competitive-programming templates.", "/notes/3-Resources/算法竞赛/OI-ICPC算法模板/"],
     ],
     soon: "Read note →",
-    contactEyebrow: "04 / CONTACT",
+    contactEyebrow: "05 / CONTACT",
     contactTitle: "Have an idea? Let’s talk.",
     contactBody: "If my work resonates with you, or you’d like to make something together, come say hello on GitHub.",
     contactButton: "Find me on GitHub",
@@ -133,7 +151,7 @@ export default function Home() {
       <header className="nav-shell">
         <a className="brand" href="#top" aria-label="Yuel home">Yuel<span>25</span></a>
         <nav aria-label="Main navigation">
-          {t.nav.map((item, index) => <a key={item} href={`#${["about", "work", "writing", "contact"][index]}`}>{item}</a>)}
+          {t.nav.map((item, index) => <a key={item} href={`#${["about", "project", "work", "writing", "contact"][index]}`}>{item}</a>)}
         </nav>
         <button className="language" onClick={() => setLanguage(language === "zh" ? "en" : "zh")} aria-label="Switch language">
           <span className={language === "zh" ? "active" : ""}>中</span><i>/</i><span className={language === "en" ? "active" : ""}>EN</span>
@@ -163,6 +181,29 @@ export default function Home() {
             <Image className="about-avatar" src="/avatar.png" alt={language === "zh" ? "Yuel 的头像" : "Portrait of Yuel"} width={260} height={260} priority />
           </div>
           <p>{t.aboutBody}</p>
+        </div>
+      </section>
+
+      <section className="section project" id="project">
+        <div className="project-card">
+          <div className="project-visual" aria-hidden="true">
+            <span className="project-orbit orbit-one" />
+            <span className="project-orbit orbit-two" />
+            <Image src="/dsh-desktop.png" alt="" width={176} height={176} className="project-icon" />
+            <span className="project-platform">WINDOWS DESKTOP</span>
+          </div>
+          <div className="project-copy">
+            <div className="project-topline"><p className="eyebrow">{t.projectEyebrow}</p><span>{t.projectStatus}</span></div>
+            <h2>{t.projectTitle}</h2>
+            <p className="project-tagline">{t.projectTagline}</p>
+            <p className="project-body">{t.projectBody}</p>
+            <ul>{t.projectFeatures.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+            <div className="project-actions">
+              <a className="button primary" href="https://github.com/Yuel25/dsh-desktop" target="_blank" rel="noreferrer">{t.projectSource}<span>↗</span></a>
+              <a className="button secondary" href="https://github.com/Yuel25/dsh-desktop/releases" target="_blank" rel="noreferrer">{t.projectRelease}<span>↓</span></a>
+            </div>
+            <p className="project-note">{t.projectNote}</p>
+          </div>
         </div>
       </section>
 
