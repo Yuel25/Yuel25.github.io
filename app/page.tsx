@@ -185,6 +185,7 @@ export default function Home() {
       </section>
 
       <section className="section project" id="project">
+        <p className="eyebrow project-eyebrow">{t.projectEyebrow}</p>
         <div className="project-card">
           <div className="project-visual" aria-hidden="true">
             <span className="project-orbit orbit-one" />
@@ -193,7 +194,7 @@ export default function Home() {
             <span className="project-platform">WINDOWS DESKTOP</span>
           </div>
           <div className="project-copy">
-            <div className="project-topline"><p className="eyebrow">{t.projectEyebrow}</p><span>{t.projectStatus}</span></div>
+            <div className="project-topline"><span>{t.projectStatus}</span></div>
             <h2>{t.projectTitle}</h2>
             <p className="project-tagline">{t.projectTagline}</p>
             <p className="project-body">{t.projectBody}</p>

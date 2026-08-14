@@ -48,8 +48,9 @@ nav a:hover:after { width:100%; }
 .orbit-one { width:310px; height:310px; }.orbit-two { width:440px; height:440px; border-color:rgba(255,255,255,.09); }
 .project-platform { position:absolute; z-index:2; bottom:34px; color:rgba(255,255,255,.58); font-size:9px; letter-spacing:.28em; }
 .project-copy { padding:clamp(42px,6vw,82px); display:flex; flex-direction:column; justify-content:center; }
-.project-topline { display:flex; align-items:center; justify-content:space-between; gap:20px; }
-.project-topline .eyebrow { margin:0; }.project-topline>span { padding:8px 12px; border:1px solid #d8c6d1; border-radius:999px; color:#9c5370; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+.project-eyebrow { margin:0 0 clamp(26px,3vw,40px); }
+.project-topline { display:flex; align-items:center; }
+.project-topline>span { padding:8px 12px; border:1px solid #d8c6d1; border-radius:999px; color:#9c5370; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
 .project h2 { margin:22px 0 12px; font-size:clamp(48px,6vw,78px); }
 .project-tagline { margin:0 0 24px; color:#474354; font-family:Georgia,"Yu Mincho",serif; font-size:clamp(20px,2vw,27px); line-height:1.5; }
 .project-body { max-width:620px; margin:0; color:var(--muted); font-size:14px; line-height:1.9; }
