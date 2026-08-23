@@ -16,15 +16,37 @@ const copy = {
     aboutEyebrow: "01 / 关于",
     aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "这里是我的个人主页，也是我收集灵感、记录成长的数字庭院。我喜欢把复杂的问题梳理清楚，再用简单、自然的方式呈现出来。",
-    projectEyebrow: "02 / 新项目",
-    projectStatus: "0.1.0 · 预览版",
-    projectTitle: "dsh-desktop",
-    projectTagline: "把 DeepSeek Harness，安静地放进桌面。",
-    projectBody: "一个面向 Windows 的非官方 DeepSeek Harness 桌面客户端。无需常驻命令行窗口，即可启动、连接并管理 DSH Web UI。",
-    projectFeatures: ["原生 Electron 窗口", "系统托盘与单实例运行", "自动连接本地 DSH 服务"],
+    projectEyebrow: "02 / 近期项目",
+    projects: [
+      {
+        status: "1.0.0 · 正式版",
+        title: "neko player",
+        tagline: "轻巧、漂亮，也足够强大的本地播放器。",
+        body: "使用 Rust、Slint 与 libmpv 构建的现代 Windows 媒体播放器，专注于流畅播放、顺手的播放列表和克制的深色界面。",
+        features: ["硬件加速与进度缩略图", "播放列表、断点续播与 LRC 歌词", "安装包、格式关联与拖放播放"],
+        source: "https://github.com/Yuel25/neko-player",
+        release: "https://github.com/Yuel25/neko-player/releases",
+        note: "Windows 10/11 x64 · Rust · Slint · libmpv · MIT",
+        mark: "NEKO",
+        platform: "WINDOWS MEDIA PLAYER",
+        tone: "neko",
+      },
+      {
+        status: "1.1.0 · 预览版",
+        title: "dsh-desktop",
+        tagline: "把 DeepSeek Harness，安静地放进桌面。",
+        body: "一个面向 Windows 的非官方 DeepSeek Harness 桌面客户端，可直接启动和管理本机 DSH，并为不同 Profile 打开相互独立的窗口。",
+        features: ["多 Profile 并行窗口与崩溃恢复", "设置、日志、诊断与更新检查", "系统托盘、开机自启与中英双语"],
+        source: "https://github.com/Yuel25/dsh-desktop",
+        release: "https://github.com/Yuel25/dsh-desktop/releases",
+        note: "Windows x64 · TypeScript · Electron · MIT",
+        mark: "DSH",
+        platform: "DEEPSEEK HARNESS DESKTOP",
+        tone: "dsh",
+      },
+    ],
     projectSource: "查看源码",
-    projectRelease: "下载预览版",
-    projectNote: "Windows x64 · TypeScript · Electron · MIT",
+    projectRelease: "下载发行版",
     workEyebrow: "03 / 每日画选",
     workTitle: "今日的三束光",
     workBody: "从我的私人收藏中，每天抽取三幅画面。明天零点，它们会悄悄换一组。",
@@ -56,15 +78,37 @@ const copy = {
     aboutEyebrow: "01 / ABOUT",
     aboutTitle: "Petals linger about,awaiting one last dance",
     aboutBody: "This is my personal home and a digital garden for ideas, inspiration, and growth. I enjoy making sense of complex problems, then presenting them in ways that feel simple and natural.",
-    projectEyebrow: "02 / NEW PROJECT",
-    projectStatus: "0.1.0 · Preview",
-    projectTitle: "dsh-desktop",
-    projectTagline: "DeepSeek Harness, quietly at home on your desktop.",
-    projectBody: "An unofficial Windows desktop client for DeepSeek Harness. Launch, connect to, and manage the DSH Web UI without keeping a command-line window open.",
-    projectFeatures: ["Native Electron window", "System tray & single instance", "Automatic local DSH connection"],
+    projectEyebrow: "02 / RECENT PROJECTS",
+    projects: [
+      {
+        status: "1.0.0 · Stable",
+        title: "neko player",
+        tagline: "A small, beautiful player with serious playback power.",
+        body: "A modern Windows media player built with Rust, Slint, and libmpv, focused on smooth playback, a practical playlist, and a restrained dark interface.",
+        features: ["Hardware acceleration & timeline previews", "Playlists, resume playback & LRC lyrics", "Installer, file associations & drag-and-drop"],
+        source: "https://github.com/Yuel25/neko-player",
+        release: "https://github.com/Yuel25/neko-player/releases",
+        note: "Windows 10/11 x64 · Rust · Slint · libmpv · MIT",
+        mark: "NEKO",
+        platform: "WINDOWS MEDIA PLAYER",
+        tone: "neko",
+      },
+      {
+        status: "1.1.0 · Preview",
+        title: "dsh-desktop",
+        tagline: "DeepSeek Harness, quietly at home on your desktop.",
+        body: "An unofficial Windows desktop client for DeepSeek Harness that launches and manages a local DSH installation, with independent windows for multiple profiles.",
+        features: ["Parallel profile windows & crash recovery", "Settings, logs, diagnostics & update checks", "System tray, launch at login & bilingual UI"],
+        source: "https://github.com/Yuel25/dsh-desktop",
+        release: "https://github.com/Yuel25/dsh-desktop/releases",
+        note: "Windows x64 · TypeScript · Electron · MIT",
+        mark: "DSH",
+        platform: "DEEPSEEK HARNESS DESKTOP",
+        tone: "dsh",
+      },
+    ],
     projectSource: "View source",
-    projectRelease: "Download preview",
-    projectNote: "Windows x64 · TypeScript · Electron · MIT",
+    projectRelease: "Download release",
     workEyebrow: "03 / DAILY GALLERY",
     workTitle: "Three quiet sparks, today",
     workBody: "Three images are drawn from my private collection each day. At midnight, a new set quietly takes their place.",
@@ -186,25 +230,27 @@ export default function Home() {
 
       <section className="section project" id="project">
         <p className="eyebrow project-eyebrow">{t.projectEyebrow}</p>
-        <div className="project-card">
-          <div className="project-visual" aria-hidden="true">
-            <span className="project-orbit orbit-one" />
-            <span className="project-orbit orbit-two" />
-            <Image src="/dsh-desktop.png" alt="" width={176} height={176} className="project-icon" />
-            <span className="project-platform">WINDOWS DESKTOP</span>
-          </div>
-          <div className="project-copy">
-            <div className="project-topline"><span>{t.projectStatus}</span></div>
-            <h2>{t.projectTitle}</h2>
-            <p className="project-tagline">{t.projectTagline}</p>
-            <p className="project-body">{t.projectBody}</p>
-            <ul>{t.projectFeatures.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-            <div className="project-actions">
-              <a className="button primary" href="https://github.com/Yuel25/dsh-desktop" target="_blank" rel="noreferrer">{t.projectSource}<span>↗</span></a>
-              <a className="button secondary" href="https://github.com/Yuel25/dsh-desktop/releases" target="_blank" rel="noreferrer">{t.projectRelease}<span>↓</span></a>
+        <div className="project-list">
+          {t.projects.map((item) => <article className={`project-card ${item.tone}`} key={item.title}>
+            <div className="project-visual" aria-hidden="true">
+              <span className="project-orbit orbit-one" />
+              <span className="project-orbit orbit-two" />
+              {item.tone === "dsh" ? <Image src="/dsh-desktop.png" alt="" width={176} height={176} className="project-icon" /> : <span className="project-monogram">{item.mark}</span>}
+              <span className="project-platform">{item.platform}</span>
             </div>
-            <p className="project-note">{t.projectNote}</p>
-          </div>
+            <div className="project-copy">
+              <div className="project-topline"><span>{item.status}</span></div>
+              <h2>{item.title}</h2>
+              <p className="project-tagline">{item.tagline}</p>
+              <p className="project-body">{item.body}</p>
+              <ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+              <div className="project-actions">
+                <a className="button primary" href={item.source} target="_blank" rel="noreferrer">{t.projectSource}<span>↗</span></a>
+                <a className="button secondary" href={item.release} target="_blank" rel="noreferrer">{t.projectRelease}<span>↓</span></a>
+              </div>
+              <p className="project-note">{item.note}</p>
+            </div>
+          </article>)}
         </div>
       </section>
 
