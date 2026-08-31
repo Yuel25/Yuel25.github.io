@@ -19,7 +19,35 @@ const copy = {
     projectEyebrow: "02 / 近期项目",
     projects: [
       {
-        status: "1.0.0 · 正式版",
+        status: "0.3.2 · 正式版",
+        title: "Mizuki",
+        tagline: "追番、订阅与下载，都收进一个安静的桌面窗口。",
+        body: "面向 Windows 的 Bangumi 动漫追踪与 Mikan RSS 下载管理器，采用本地优先的数据与隐私设计。",
+        features: ["本地追番与可选 Bangumi 同步", "Mikan RSS 规则与内置下载器", "封面、详情缓存与离线回退"],
+        source: "https://github.com/Yuel25/Mizuki",
+        release: "https://github.com/Yuel25/Mizuki/releases",
+        note: "Windows x64 · Rust · Tauri 2 · React · MIT",
+        icon: "/mizuki.png",
+        mark: "MIZU",
+        platform: "ANIME TRACKER & RSS MANAGER",
+        tone: "mizuki",
+      },
+      {
+        status: "1.3.4 · 正式版",
+        title: "celechron-next",
+        tagline: "为浙大学生重新整理每一天。",
+        body: "基于 Flutter 的 Android 时间管理应用，把课表、考试、日程、DDL 与成绩收进同一套本地优先的体验。",
+        features: ["课表、考试与时间线总览", "DDL 助手、日程与系统日历同步", "成绩查询、绩点换算与更新提醒"],
+        source: "https://github.com/Yuel25/Celechron-Next",
+        release: "https://github.com/Yuel25/Celechron-Next/releases",
+        note: "Android 9+ · Dart · Flutter · GPL-3.0 · 上游延续版",
+        icon: "/celechron-next.png",
+        mark: "CELE",
+        platform: "ZJU STUDENT TIME MANAGER",
+        tone: "celechron",
+      },
+      {
+        status: "1.1.2 · 正式版",
         title: "neko player",
         tagline: "轻巧、漂亮，也足够强大的本地播放器。",
         body: "使用 Rust、Slint 与 libmpv 构建的现代 Windows 媒体播放器，专注于流畅播放、顺手的播放列表和克制的深色界面。",
@@ -27,12 +55,13 @@ const copy = {
         source: "https://github.com/Yuel25/neko-player",
         release: "https://github.com/Yuel25/neko-player/releases",
         note: "Windows 10/11 x64 · Rust · Slint · libmpv · MIT",
+        icon: "/neko-player.png",
         mark: "NEKO",
         platform: "WINDOWS MEDIA PLAYER",
         tone: "neko",
       },
       {
-        status: "1.1.0 · 预览版",
+        status: "1.1.1 · 正式版",
         title: "dsh-desktop",
         tagline: "把 DeepSeek Harness，安静地放进桌面。",
         body: "一个面向 Windows 的非官方 DeepSeek Harness 桌面客户端，可直接启动和管理本机 DSH，并为不同 Profile 打开相互独立的窗口。",
@@ -40,6 +69,7 @@ const copy = {
         source: "https://github.com/Yuel25/dsh-desktop",
         release: "https://github.com/Yuel25/dsh-desktop/releases",
         note: "Windows x64 · TypeScript · Electron · MIT",
+        icon: "/dsh-desktop.png",
         mark: "DSH",
         platform: "DEEPSEEK HARNESS DESKTOP",
         tone: "dsh",
@@ -81,7 +111,35 @@ const copy = {
     projectEyebrow: "02 / RECENT PROJECTS",
     projects: [
       {
-        status: "1.0.0 · Stable",
+        status: "0.3.2 · Stable",
+        title: "Mizuki",
+        tagline: "Tracking, subscriptions, and downloads in one quiet desktop home.",
+        body: "A Windows anime tracker and Mikan RSS download manager with a local-first approach to data and privacy.",
+        features: ["Local tracking with optional Bangumi sync", "Mikan RSS rules & built-in downloader", "Artwork and detail caching with offline fallback"],
+        source: "https://github.com/Yuel25/Mizuki",
+        release: "https://github.com/Yuel25/Mizuki/releases",
+        note: "Windows x64 · Rust · Tauri 2 · React · MIT",
+        icon: "/mizuki.png",
+        mark: "MIZU",
+        platform: "ANIME TRACKER & RSS MANAGER",
+        tone: "mizuki",
+      },
+      {
+        status: "1.3.4 · Stable",
+        title: "celechron-next",
+        tagline: "A clearer rhythm for every day at Zhejiang University.",
+        body: "A Flutter-based Android planner that brings classes, exams, schedules, deadlines, and grades into one local-first experience.",
+        features: ["Class, exam & timeline overview", "Deadline assistant and calendar sync", "Grades, GPA conversion & update alerts"],
+        source: "https://github.com/Yuel25/Celechron-Next",
+        release: "https://github.com/Yuel25/Celechron-Next/releases",
+        note: "Android 9+ · Dart · Flutter · GPL-3.0 · Continued from upstream",
+        icon: "/celechron-next.png",
+        mark: "CELE",
+        platform: "ZJU STUDENT TIME MANAGER",
+        tone: "celechron",
+      },
+      {
+        status: "1.1.2 · Stable",
         title: "neko player",
         tagline: "A small, beautiful player with serious playback power.",
         body: "A modern Windows media player built with Rust, Slint, and libmpv, focused on smooth playback, a practical playlist, and a restrained dark interface.",
@@ -89,12 +147,13 @@ const copy = {
         source: "https://github.com/Yuel25/neko-player",
         release: "https://github.com/Yuel25/neko-player/releases",
         note: "Windows 10/11 x64 · Rust · Slint · libmpv · MIT",
+        icon: "/neko-player.png",
         mark: "NEKO",
         platform: "WINDOWS MEDIA PLAYER",
         tone: "neko",
       },
       {
-        status: "1.1.0 · Preview",
+        status: "1.1.1 · Stable",
         title: "dsh-desktop",
         tagline: "DeepSeek Harness, quietly at home on your desktop.",
         body: "An unofficial Windows desktop client for DeepSeek Harness that launches and manages a local DSH installation, with independent windows for multiple profiles.",
@@ -102,6 +161,7 @@ const copy = {
         source: "https://github.com/Yuel25/dsh-desktop",
         release: "https://github.com/Yuel25/dsh-desktop/releases",
         note: "Windows x64 · TypeScript · Electron · MIT",
+        icon: "/dsh-desktop.png",
         mark: "DSH",
         platform: "DEEPSEEK HARNESS DESKTOP",
         tone: "dsh",
@@ -235,7 +295,7 @@ export default function Home() {
             <div className="project-visual" aria-hidden="true">
               <span className="project-orbit orbit-one" />
               <span className="project-orbit orbit-two" />
-              {item.tone === "dsh" ? <Image src="/dsh-desktop.png" alt="" width={176} height={176} className="project-icon" /> : <span className="project-monogram">{item.mark}</span>}
+              <Image src={item.icon} alt="" width={176} height={176} className="project-icon" />
               <span className="project-platform">{item.platform}</span>
             </div>
             <div className="project-copy">
