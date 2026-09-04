@@ -19,11 +19,11 @@ const copy = {
     projectEyebrow: "02 / 近期项目",
     projects: [
       {
-        status: "0.3.2 · 正式版",
+        status: "0.3.4 · 正式版",
         title: "Mizuki",
         tagline: "追番、订阅与下载，都收进一个安静的桌面窗口。",
         body: "面向 Windows 的 Bangumi 动漫追踪与 Mikan RSS 下载管理器，采用本地优先的数据与隐私设计。",
-        features: ["本地追番与可选 Bangumi 同步", "Mikan RSS 规则与内置下载器", "封面、详情缓存与离线回退"],
+        features: ["收藏同步保护连续修改的追番进度", "下载队列后台调度与失败重试", "重启后离线选集与文件删除重试"],
         source: "https://github.com/Yuel25/Mizuki",
         release: "https://github.com/Yuel25/Mizuki/releases",
         note: "Windows x64 · Rust · Tauri 2 · React · MIT",
@@ -61,15 +61,15 @@ const copy = {
         tone: "neko",
       },
       {
-        status: "1.1.1 · 正式版",
+        status: "1.2.4 · 正式版",
         title: "dsh-desktop",
         tagline: "把 DeepSeek Harness，安静地放进桌面。",
         body: "一个面向 Windows 的非官方 DeepSeek Harness 桌面客户端，可直接启动和管理本机 DSH，并为不同 Profile 打开相互独立的窗口。",
-        features: ["多 Profile 并行窗口与崩溃恢复", "设置、日志、诊断与更新检查", "系统托盘、开机自启与中英双语"],
+        features: ["全新鲸鱼娘图标与随主题切换的启动页", "启动认证兼容与多 Profile 崩溃恢复", "日志认证信息脱敏与自动发布安装包"],
         source: "https://github.com/Yuel25/dsh-desktop",
         release: "https://github.com/Yuel25/dsh-desktop/releases",
         note: "Windows x64 · TypeScript · Electron · MIT",
-        icon: "/dsh-desktop.png",
+        icon: "/dsh-desktop-v1.2.4.png",
         mark: "DSH",
         platform: "DEEPSEEK HARNESS DESKTOP",
         tone: "dsh",
@@ -111,11 +111,11 @@ const copy = {
     projectEyebrow: "02 / RECENT PROJECTS",
     projects: [
       {
-        status: "0.3.2 · Stable",
+        status: "0.3.4 · Stable",
         title: "Mizuki",
         tagline: "Tracking, subscriptions, and downloads in one quiet desktop home.",
         body: "A Windows anime tracker and Mikan RSS download manager with a local-first approach to data and privacy.",
-        features: ["Local tracking with optional Bangumi sync", "Mikan RSS rules & built-in downloader", "Artwork and detail caching with offline fallback"],
+        features: ["Preserve tracking edits during collection sync", "Background download queue with failure retries", "Offline episode selection & file deletion retries"],
         source: "https://github.com/Yuel25/Mizuki",
         release: "https://github.com/Yuel25/Mizuki/releases",
         note: "Windows x64 · Rust · Tauri 2 · React · MIT",
@@ -153,15 +153,15 @@ const copy = {
         tone: "neko",
       },
       {
-        status: "1.1.1 · Stable",
+        status: "1.2.4 · Stable",
         title: "dsh-desktop",
         tagline: "DeepSeek Harness, quietly at home on your desktop.",
         body: "An unofficial Windows desktop client for DeepSeek Harness that launches and manages a local DSH installation, with independent windows for multiple profiles.",
-        features: ["Parallel profile windows & crash recovery", "Settings, logs, diagnostics & update checks", "System tray, launch at login & bilingual UI"],
+        features: ["New whale-girl icon & theme-aware startup", "Launch authentication & profile crash recovery", "Auth token redaction & automated installer releases"],
         source: "https://github.com/Yuel25/dsh-desktop",
         release: "https://github.com/Yuel25/dsh-desktop/releases",
         note: "Windows x64 · TypeScript · Electron · MIT",
-        icon: "/dsh-desktop.png",
+        icon: "/dsh-desktop-v1.2.4.png",
         mark: "DSH",
         platform: "DEEPSEEK HARNESS DESKTOP",
         tone: "dsh",
@@ -232,9 +232,11 @@ function formatGalleryDate(dateKey: string, language: "zh" | "en") {
 export default function Home() {
   const [language, setLanguage] = useState<"zh" | "en">("zh");
   const [activeArtwork, setActiveArtwork] = useState<string | null>(null);
+  const [activeProject, setActiveProject] = useState(0);
   const dailyDate = useSyncExternalStore(subscribeToDate, getShanghaiDateKey, () => "");
   const dailyIndexes = dailyDate ? getDailySelection(dailyDate) : [0, 1, 2];
   const t = copy[language];
+  const project = t.projects[activeProject];
 
   useEffect(() => {
     if (!activeArtwork) return;
@@ -290,27 +292,55 @@ export default function Home() {
 
       <section className="section project" id="project">
         <p className="eyebrow project-eyebrow">{t.projectEyebrow}</p>
-        <div className="project-list">
-          {t.projects.map((item) => <article className={`project-card ${item.tone}`} key={item.title}>
-            <div className="project-visual" aria-hidden="true">
-              <span className="project-orbit orbit-one" />
-              <span className="project-orbit orbit-two" />
-              <Image src={item.icon} alt="" width={176} height={176} className="project-icon" />
-              <span className="project-platform">{item.platform}</span>
+        <div className="project-workspace">
+          <div className="project-picker" role="tablist" aria-label={language === "zh" ? "选择项目" : "Select a project"}>
+            {t.projects.map((item, index) => (
+              <button
+                key={item.title}
+                id={`project-tab-${index}`}
+                className="project-tab"
+                role="tab"
+                aria-selected={activeProject === index}
+                aria-controls={`project-panel-${index}`}
+                tabIndex={activeProject === index ? 0 : -1}
+                onClick={() => setActiveProject(index)}
+                onKeyDown={(event) => {
+                  const count = t.projects.length;
+                  const next = event.key === "Home" ? 0 : event.key === "End" ? count - 1
+                    : ["ArrowRight", "ArrowDown"].includes(event.key) ? (index + 1) % count
+                    : ["ArrowLeft", "ArrowUp"].includes(event.key) ? (index + count - 1) % count : null;
+                  if (next === null) return;
+                  event.preventDefault();
+                  setActiveProject(next);
+                  document.getElementById(`project-tab-${next}`)?.focus();
+                }}
+              >
+                <Image src={item.icon} alt="" width={48} height={48} />
+                <span className="project-tab-copy"><strong>{item.title}</strong><small>{item.status}</small></span>
+                <span className="project-tab-arrow" aria-hidden="true">↗</span>
+              </button>
+            ))}
+          </div>
+          {t.projects.map((item, index) => (
+            <div key={item.title} id={`project-panel-${index}`} role="tabpanel" aria-labelledby={`project-tab-${index}`} hidden={activeProject !== index} tabIndex={0}>
+              {activeProject === index && (
+                <article className={`project-detail ${project.tone}`}>
+                  <header className="project-detail-heading">
+                    <div><p className="project-platform">{project.platform}</p><h2>{project.title}</h2></div>
+                    <Image src={project.icon} alt="" width={88} height={88} className="project-detail-icon" />
+                  </header>
+                  <p className="project-tagline">{project.tagline}</p>
+                  <p className="project-body">{project.body}</p>
+                  <ul>{project.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+                  <div className="project-actions">
+                    <a className="button primary" href={project.source} target="_blank" rel="noreferrer">{t.projectSource}<span>↗</span></a>
+                    <a className="button secondary" href={project.release} target="_blank" rel="noreferrer">{t.projectRelease}<span>↓</span></a>
+                  </div>
+                  <p className="project-note">{project.note}</p>
+                </article>
+              )}
             </div>
-            <div className="project-copy">
-              <div className="project-topline"><span>{item.status}</span></div>
-              <h2>{item.title}</h2>
-              <p className="project-tagline">{item.tagline}</p>
-              <p className="project-body">{item.body}</p>
-              <ul>{item.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-              <div className="project-actions">
-                <a className="button primary" href={item.source} target="_blank" rel="noreferrer">{t.projectSource}<span>↗</span></a>
-                <a className="button secondary" href={item.release} target="_blank" rel="noreferrer">{t.projectRelease}<span>↓</span></a>
-              </div>
-              <p className="project-note">{item.note}</p>
-            </div>
-          </article>)}
+          ))}
         </div>
       </section>
 
