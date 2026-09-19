@@ -14,7 +14,7 @@ const copy = {
     explore: "看看今日画选",
     github: "访问 GitHub",
     aboutEyebrow: "01 / 关于",
-    aboutTitle: "Petals linger about,awaiting one last dance",
+    aboutTitle: "Petals linger about, awaiting one last dance",
     aboutBody: "这里是我的个人主页，也是我收集灵感、记录成长的数字庭院。我喜欢把复杂的问题梳理清楚，再用简单、自然的方式呈现出来。",
     projectEyebrow: "02 / 近期项目",
     projects: [
@@ -84,6 +84,10 @@ const copy = {
     collection: "私人收藏",
     openArtwork: "查看完整画面",
     closeArtwork: "关闭画面",
+    prevArtwork: "上一幅作品",
+    nextArtwork: "下一幅作品",
+    menuOpen: "打开导航菜单",
+    menuClose: "关闭导航菜单",
     writingEyebrow: "04 / 文章",
     writingTitle: "一些近期思考",
     posts: [
@@ -106,7 +110,7 @@ const copy = {
     explore: "See today’s selection",
     github: "Visit GitHub",
     aboutEyebrow: "01 / ABOUT",
-    aboutTitle: "Petals linger about,awaiting one last dance",
+    aboutTitle: "Petals linger about, awaiting one last dance",
     aboutBody: "This is my personal home and a digital garden for ideas, inspiration, and growth. I enjoy making sense of complex problems, then presenting them in ways that feel simple and natural.",
     projectEyebrow: "02 / RECENT PROJECTS",
     projects: [
@@ -176,6 +180,10 @@ const copy = {
     collection: "Private collection",
     openArtwork: "View full artwork",
     closeArtwork: "Close artwork",
+    prevArtwork: "Previous artwork",
+    nextArtwork: "Next artwork",
+    menuOpen: "Open navigation menu",
+    menuClose: "Close navigation menu",
     writingEyebrow: "04 / WRITING",
     writingTitle: "Recent thoughts",
     posts: [
@@ -231,41 +239,76 @@ function formatGalleryDate(dateKey: string, language: "zh" | "en") {
 
 export default function Home() {
   const [language, setLanguage] = useState<"zh" | "en">("zh");
-  const [activeArtwork, setActiveArtwork] = useState<string | null>(null);
+  const [activeArtwork, setActiveArtwork] = useState<number | null>(null);
   const [activeProject, setActiveProject] = useState(0);
+  const [navScrolled, setNavScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dailyDate = useSyncExternalStore(subscribeToDate, getShanghaiDateKey, () => "");
   const dailyIndexes = dailyDate ? getDailySelection(dailyDate) : [0, 1, 2];
+  const dailyArtworks = dailyIndexes.map((index) => galleryImages[index]);
   const t = copy[language];
   const project = t.projects[activeProject];
 
   useEffect(() => {
-    if (!activeArtwork) return;
+    const onScroll = () => setNavScrolled(window.scrollY > 32);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // JS 注入 .reveal：禁用脚本时内容保持可见
+  useEffect(() => {
+    const targets = Array.from(document.querySelectorAll<HTMLElement>("main .section, main .contact, main footer"));
+    if (!targets.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+    for (const target of targets) {
+      target.classList.add("reveal");
+      observer.observe(target);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (activeArtwork === null) return;
     const previousOverflow = document.body.style.overflow;
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setActiveArtwork(null);
+      if (event.key === "ArrowLeft") setActiveArtwork((current) => current === null ? null : (current + dailyArtworks.length - 1) % dailyArtworks.length);
+      if (event.key === "ArrowRight") setActiveArtwork((current) => current === null ? null : (current + 1) % dailyArtworks.length);
     };
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("keydown", handleKey);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("keydown", handleKey);
     };
   }, [activeArtwork]);
 
   return (
     <main>
-      <header className="nav-shell">
+      <header className={`nav-shell${navScrolled ? " scrolled" : ""}${menuOpen ? " menu-open" : ""}`}>
         <a className="brand" href="#top" aria-label="Yuel home">Yuel<span>25</span></a>
-        <nav aria-label="Main navigation">
-          {t.nav.map((item, index) => <a key={item} href={`#${["about", "project", "work", "writing", "contact"][index]}`}>{item}</a>)}
+        <nav className="site-nav" aria-label="Main navigation">
+          {t.nav.map((item, index) => <a key={item} onClick={() => setMenuOpen(false)} href={`#${["about", "project", "work", "writing", "contact"][index]}`}>{item}</a>)}
         </nav>
-        <button className="language" onClick={() => setLanguage(language === "zh" ? "en" : "zh")} aria-label="Switch language">
-          <span className={language === "zh" ? "active" : ""}>中</span><i>/</i><span className={language === "en" ? "active" : ""}>EN</span>
-        </button>
+        <div className="nav-controls">
+          <button className="language" onClick={() => setLanguage(language === "zh" ? "en" : "zh")} aria-label="Switch language">
+            <span className={language === "zh" ? "active" : ""}>中</span><i>/</i><span className={language === "en" ? "active" : ""}>EN</span>
+          </button>
+          <button className="menu-toggle" aria-expanded={menuOpen} aria-label={menuOpen ? t.menuClose : t.menuOpen} onClick={() => setMenuOpen((open) => !open)}>
+            <span /><span /><span />
+          </button>
+        </div>
       </header>
 
       <section className="hero" id="top">
-        <div className="sun" aria-hidden="true" />
         <div className="hero-copy">
           <p className="kicker">WELCOME TO MY LITTLE CORNER</p>
           <h1>{t.hello}</h1>
@@ -366,10 +409,10 @@ export default function Home() {
               <button
                 className="gallery-card"
                 key={artwork}
-                onClick={() => setActiveArtwork(artwork)}
+                onClick={() => setActiveArtwork(index)}
                 aria-label={`${t.openArtwork} ${index + 1}`}
               >
-                <Image className="gallery-image" src={artwork} alt="" fill sizes={index === 0 ? "(max-width: 800px) 100vw, 62vw" : "(max-width: 800px) 100vw, 32vw"} />
+                <Image className="gallery-image" src={artwork} alt={`${t.collection} · 0${index + 1}`} fill sizes={index === 0 ? "(max-width: 800px) 100vw, 62vw" : "(max-width: 800px) 100vw, 32vw"} />
                 <span className="gallery-wash" />
                 <span className="gallery-number">0{index + 1}</span>
                 <span className="gallery-caption"><small>{t.collection}</small>{t.openArtwork}<i>↗</i></span>
@@ -388,12 +431,15 @@ export default function Home() {
       <section className="contact" id="contact"><p className="eyebrow">{t.contactEyebrow}</p><h2>{t.contactTitle}</h2><p>{t.contactBody}</p><a className="button primary" href="https://github.com/Yuel25" target="_blank" rel="noreferrer">{t.contactButton}<span>↗</span></a></section>
       <footer><a className="brand" href="#top">Yuel<span>25</span></a><p>{t.footer}</p><p>© 2026 Yuel</p></footer>
 
-      {activeArtwork && (
+      {activeArtwork !== null && (
         <div className="lightbox" role="dialog" aria-modal="true" aria-label={t.openArtwork} onClick={() => setActiveArtwork(null)}>
           <button className="lightbox-close" onClick={() => setActiveArtwork(null)} aria-label={t.closeArtwork}>×</button>
+          <button className="lightbox-nav prev" aria-label={t.prevArtwork} onClick={(event) => { event.stopPropagation(); setActiveArtwork((current) => current === null ? null : (current + dailyArtworks.length - 1) % dailyArtworks.length); }}>‹</button>
           <div className="lightbox-stage" onClick={(event) => event.stopPropagation()}>
-            <Image className="lightbox-image" src={activeArtwork} alt="" fill sizes="96vw" priority />
+            <Image className="lightbox-image" src={dailyArtworks[activeArtwork]} alt={`${t.collection} · 0${activeArtwork + 1}`} fill sizes="96vw" priority />
           </div>
+          <button className="lightbox-nav next" aria-label={t.nextArtwork} onClick={(event) => { event.stopPropagation(); setActiveArtwork((current) => current === null ? null : (current + 1) % dailyArtworks.length); }}>›</button>
+          <p className="lightbox-counter" aria-hidden="true">{activeArtwork + 1} / {dailyArtworks.length}</p>
         </div>
       )}
     </main>
