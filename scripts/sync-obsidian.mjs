@@ -3,9 +3,17 @@ import path from "node:path";
 
 const vault = path.resolve(process.env.OBSIDIAN_VAULT || "D:/Notes");
 const destination = path.resolve("content/notes");
-const publicRoots = ["0-InBox", "1-Projects", "2-Aeras", "3-Resources", "4-Archives"];
-const privateRoots = ["5-Journals", "Journals"];
-const assetExtensions = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".pdf"]);
+const publicRoots = ["兴趣生活", "大学学习"];
+const privateRoots = ["日记", "5-Journals", "Journals"];
+// 暂不发布的路径（相对仓库根，统一用 / 分隔）
+const excludedPaths = [
+  "大学学习/进行中", // 新学期笔记含大量图片嵌入，待图片管道就绪后再发布
+  "大学学习/CANN挑战赛",
+  "大学学习/已结课/25-26春夏学期/大物24-25期末解答.md", // 期末解答不公开
+  "大学学习/已结课/25-26春夏学期/离散数学25期末解答.md",
+];
+// 注意：PDF 永不上传，保持不在此列表中
+const assetExtensions = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"]);
 
 async function walk(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -44,12 +52,17 @@ for (const root of privateRoots) {
 }
 const privateNames = new Set(privateFiles.map((file) => path.basename(file, ".md").toLowerCase()));
 
+const isExcluded = (file) => {
+  const relative = relativeFromVault(file);
+  return excludedPaths.some((excluded) => relative === excluded || relative.startsWith(excluded + "/"));
+};
+
 const notes = [];
 for (const root of publicRoots) {
   const fullPath = path.join(vault, root);
   try {
     for (const file of await walk(fullPath)) {
-      if (file.endsWith(".md")) notes.push(file);
+      if (file.endsWith(".md") && !isExcluded(file)) notes.push(file);
     }
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
@@ -66,7 +79,7 @@ await mkdir(destination, { recursive: true });
 for (const source of notes) {
   const relative = relativeFromVault(source);
   const content = await readFile(source, "utf8");
-  const unsafePath = /(?:^|[\\/])(?:5-Journals|Journals)(?:[\\/#]|$)/i.test(content);
+  const unsafePath = /(?:^|[\\/])(?:5-Journals|Journals|日记)(?:[\\/#]|$)/i.test(content);
   const wikiTargets = [...content.matchAll(/!??\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]/g)].map((match) => match[1].trim());
   const privateLink = wikiTargets.find((target) => privateNames.has(path.basename(target).toLowerCase()));
   if (unsafePath || privateLink) {
