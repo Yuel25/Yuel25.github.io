@@ -33,7 +33,7 @@ const copy = {
         tone: "mizuki",
       },
       {
-        status: "1.3.4 · 正式版",
+        status: "1.4.2 · 正式版",
         title: "celechron-next",
         tagline: "为浙大学生重新整理每一天。",
         body: "基于 Flutter 的 Android 时间管理应用，把课表、考试、日程、DDL 与成绩收进同一套本地优先的体验。",
@@ -129,7 +129,7 @@ const copy = {
         tone: "mizuki",
       },
       {
-        status: "1.3.4 · Stable",
+        status: "1.4.2 · Stable",
         title: "celechron-next",
         tagline: "A clearer rhythm for every day at Zhejiang University.",
         body: "A Flutter-based Android planner that brings classes, exams, schedules, deadlines, and grades into one local-first experience.",
