@@ -4,6 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { galleryImages } from "./gallery.generated";
+import { recentPosts } from "./posts.generated";
 
 const copy = {
   zh: {
@@ -90,12 +91,6 @@ const copy = {
     menuClose: "关闭导航菜单",
     writingEyebrow: "04 / 文章",
     writingTitle: "一些近期思考",
-    posts: [
-      ["2026 十月看番计划", "2026.10", "十月新番的个人观看清单与记录。", "/notes/兴趣生活/动漫/2026十月看番计划/"],
-      ["2026 七月看番计划", "2026.08", "七月新番的个人观看清单与记录。", "/notes/兴趣生活/动漫/2026七月看番计划/"],
-      ["2026 四月看番计划", "2026.08", "四月新番的个人观看清单与记录。", "/notes/兴趣生活/动漫/2026四月看番计划/"],
-      ["OI-ICPC 算法模板", "2026.07", "算法竞赛常用数据结构与算法模板汇总。", "/notes/大学学习/算法竞赛/OI-ICPC算法模板/"],
-    ],
     soon: "阅读笔记 →",
     contactEyebrow: "05 / 联系",
     contactTitle: "有好点子？一起聊聊。",
@@ -187,12 +182,6 @@ const copy = {
     menuClose: "Close navigation menu",
     writingEyebrow: "04 / WRITING",
     writingTitle: "Recent thoughts",
-    posts: [
-      ["October 2026 Anime List", "2026.10", "My personal watch list and notes for the October season.", "/notes/兴趣生活/动漫/2026十月看番计划/"],
-      ["July 2026 Anime List", "2026.08", "My personal watch list and notes for the July season.", "/notes/兴趣生活/动漫/2026七月看番计划/"],
-      ["April 2026 Anime List", "2026.08", "My personal watch list and notes for the April season.", "/notes/兴趣生活/动漫/2026四月看番计划/"],
-      ["OI-ICPC Algorithm Templates", "2026.07", "A collection of common competitive-programming templates.", "/notes/大学学习/算法竞赛/OI-ICPC算法模板/"],
-    ],
     soon: "Read note →",
     contactEyebrow: "05 / CONTACT",
     contactTitle: "Have an idea? Let’s talk.",
@@ -426,7 +415,7 @@ export default function Home() {
 
       <section className="section writing" id="writing">
         <p className="eyebrow">{t.writingEyebrow}</p><h2>{t.writingTitle}</h2>
-        <div className="post-list">{t.posts.map((post, index) => <Link className="post" href={post[3]} key={post[0]}><span className="post-number">0{index + 1}</span><div><h3>{post[0]}</h3><p>{post[2]}</p></div><time>{post[1]}</time><span className="post-status">{t.soon}</span></Link>)}</div>
+        <div className="post-list">{recentPosts.map((post, index) => <Link className="post" href={`/notes/${post.slug}/`} key={post.slug}><span className="post-number">0{index + 1}</span><div><h3>{post.title}</h3><p>{post.path}</p></div><time>{post.date}</time><span className="post-status">{t.soon}</span></Link>)}</div>
         <Link className="button secondary notes-link" href="/notes/">{language === "zh" ? "浏览公开笔记" : "Browse public notes"}<span>→</span></Link>
       </section>
 
