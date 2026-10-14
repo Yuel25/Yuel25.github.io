@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "katex/dist/katex.min.css";
+import "highlight.js/styles/tokyo-night-dark.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yuel25.github.io"),

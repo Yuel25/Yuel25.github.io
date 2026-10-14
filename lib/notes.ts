@@ -1,11 +1,20 @@
 import fs from "node:fs";
 import path from "node:path";
+import hljs from "highlight.js";
 import { marked } from "marked";
+import { markedHighlight } from "marked-highlight";
 import markedKatex from "marked-katex-extension";
 import sanitizeHtml from "sanitize-html";
 
 const contentRoot = path.join(process.cwd(), "content", "notes");
 marked.use(markedKatex({ throwOnError: false, strict: "ignore", nonStandard: true }));
+marked.use(markedHighlight({
+  langPrefix: "hljs language-",
+  highlight(code, language) {
+    if (language && hljs.getLanguage(language)) return hljs.highlight(code, { language }).value;
+    return hljs.highlightAuto(code).value;
+  },
+}));
 
 export type NoteSummary = { slug: string; title: string; section: string; updatedAt: string };
 export type TocItem = { id: string; text: string; level: number };
@@ -142,6 +151,7 @@ export function getNote(slugParts: string[]) {
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
       img: ["src", "alt", "title", "loading", "width", "height"],
+      code: ["class"],
       span: ["class", "style", "aria-hidden"],
       math: ["xmlns"],
       annotation: ["encoding"],
