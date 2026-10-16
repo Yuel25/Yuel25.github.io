@@ -135,14 +135,14 @@ for (const source of notes) {
   const relative = relativeFromVault(source);
   let content = await readFile(source, "utf8");
   const unsafePath = /(?:^|[\\/])(?:5-Journals|Journals|日记)(?:[\\/#]|$)/i.test(content);
-  const wikiTargets = [...content.matchAll(/!??\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]/g)].map((match) => match[1].trim());
+  const wikiTargets = [...content.matchAll(/!??\[\[([^\]|#\\]+)(?:#[^\]|]*)?(?:\\?\|[^\]]*)?\]\]/g)].map((match) => match[1].trim());
   const privateLink = wikiTargets.find((target) => privateNames.has(path.basename(target).toLowerCase()));
   if (unsafePath || privateLink) {
     throw new Error(`Refusing to publish ${relative}: it links to a private journal.`);
   }
 
-  // Obsidian 嵌入：![[图片.png]] / ![[图片.png|240]]
-  for (const match of content.matchAll(/!\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]/g)) {
+  // Obsidian 嵌入：![[图片.png]] / ![[图片.png|240]] / 表格内 ![[图片.png\|240]]
+  for (const match of content.matchAll(/!\[\[([^\]|#\\]+)(?:#[^\]|]*)?(?:\\?\|[^\]]*)?\]\]/g)) {
     const name = match[1].trim();
     if (!assetExtensions.has(path.extname(name).toLowerCase())) continue; // PDF 等一律忽略
     const assetSource = resolveAsset(name, source);

@@ -89,9 +89,10 @@ function escapeHtmlAttribute(value: string) {
   return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// ![[图.png|240]] → <img>；未同步成功的资源退化成文字，避免出现断图
+// ![[图.png|240]] → <img>；表格内的转义竖线 `\|` 按 Obsidian 规则视作分隔符；
+// 未同步成功的资源退化成文字，避免出现断图
 function renderEmbeds(markdown: string, assets: Record<string, string>) {
-  return markdown.replace(/!\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]*))?\]\]/g, (whole, target, label) => {
+  return markdown.replace(/!\[\[([^\]|#\\]+)(?:#[^\]|]*)?(?:\\?\|([^\]]*))?\]\]/g, (whole, target, label) => {
     const name = String(target).trim();
     const url = assets[path.basename(name).toLowerCase()];
     const size = /^(\d+)(?:x(\d+))?$/.exec(String(label ?? "").trim());
@@ -131,7 +132,7 @@ export function getNote(slugParts: string[]) {
   let markdown = fs.readFileSync(file, "utf8");
   markdown = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
   markdown = renderEmbeds(markdown, data.assets ?? {});
-  markdown = markdown.replace(/\[\[([^\]|#]+)(#[^\]|]*)?(?:\|([^\]]+))?\]\]/g, (_, target, heading = "", label) => {
+  markdown = markdown.replace(/\[\[([^\]|#\\]+)(#[^\]|]*)?(?:\\?\|([^\]]+))?\]\]/g, (_, target, heading = "", label) => {
     const linkedSlug = data.links[String(target).trim().toLowerCase()];
     const text = label || String(target).split("/").pop();
     if (!linkedSlug) return text;
