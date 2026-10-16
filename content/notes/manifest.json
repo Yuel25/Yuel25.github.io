@@ -112,13 +112,13 @@
       "slug": "大学学习/进行中/26-27秋冬学期/大学物理/01 电磁学",
       "title": "01 电磁学",
       "section": "大学学习",
-      "updatedAt": "2026-10-13T03:30:34.193Z"
+      "updatedAt": "2026-10-16T15:05:15.491Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/大学物理/02 光学",
       "title": "02 光学",
       "section": "大学学习",
-      "updatedAt": "2026-10-14T11:47:49.126Z"
+      "updatedAt": "2026-10-16T15:07:08.675Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/大学物理/03 量子力学",
@@ -130,7 +130,7 @@
       "slug": "大学学习/进行中/26-27秋冬学期/大学物理/大学物理 课程总览",
       "title": "大学物理 课程总览",
       "section": "大学学习",
-      "updatedAt": "2026-10-13T03:13:30.520Z"
+      "updatedAt": "2026-10-16T15:06:44.995Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/01 概论与性能度量",
@@ -205,6 +205,12 @@
     "phys-c1-10.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-10.png",
     "phys-c1-11.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-11.png",
     "phys-c1-12.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-12.png",
+    "phys2-cond-1.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-1.png",
+    "phys2-cond-2.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-2.png",
+    "phys2-cond-3.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-3.png",
+    "phys2-cond-4.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-4.png",
+    "phys2-cond-5.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-5.png",
+    "phys2-cond-6.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cond-6.png",
     "phys-c1-13.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-13.png",
     "phys-c1-14.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-14.png",
     "phys-c1-15.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-15.png",
@@ -217,10 +223,15 @@
     "phys-c1-26.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-26.png",
     "phys-c1-4.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-4.png",
     "phys-c1-5.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-5.png",
+    "phys2-wire-finite.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-wire-finite.png",
+    "phys2-coil-axis.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-coil-axis.png",
     "phys-c1-18.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-18.png",
     "phys-c1-17.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-17.png",
     "phys-c1-19.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-19.png",
     "phys-c1-6.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-6.png",
+    "phys2-cylinder.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-cylinder.png",
+    "phys2-toroid.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-toroid.png",
+    "phys2-infinite-plane.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-infinite-plane.png",
     "phys-c1-16.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-16.png",
     "phys-c1-27.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-27.png",
     "phys-c1-20.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-20.png",
@@ -240,8 +251,10 @@
     "phys-c1-32.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-32.png",
     "phys-c1-33.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-33.png",
     "phys-c1-34.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C1-34.png",
+    "phys2-interference.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-interference.png",
     "phys-c2-26.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-26.png",
     "phys-c2-1.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-1.png",
+    "phys2-lloyd.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-lloyd.png",
     "phys-c2-2.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-2.png",
     "phys-c2-3.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-3.png",
     "phys-c2-4.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-4.png",
@@ -251,6 +264,7 @@
     "phys-c2-27.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-27.png",
     "phys-c2-8.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-8.png",
     "phys-c2-9.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-9.png",
+    "phys2-huygens.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys2-huygens.png",
     "phys-c2-10.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-10.png",
     "phys-c2-11.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-11.png",
     "phys-c2-12.png": "/notes-assets/%E5%A4%A7%E5%AD%A6%E7%89%A9%E7%90%86/phys-C2-12.png",
