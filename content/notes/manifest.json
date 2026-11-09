@@ -184,37 +184,43 @@
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/01 概论与性能度量",
       "title": "01 概论与性能度量",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:40:51.799Z"
+      "updatedAt": "2026-11-09T08:22:03.540Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/02 数制、ALU 与运算器",
       "title": "02 数制、ALU 与运算器",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:41:32.665Z"
+      "updatedAt": "2026-11-09T08:22:03.542Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/03 RISC-V 指令系统",
       "title": "03 RISC-V 指令系统",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:43:53.595Z"
+      "updatedAt": "2026-11-09T08:22:03.544Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/04 处理器：单周期与流水线",
       "title": "04 处理器：单周期与流水线",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:42:45.170Z"
+      "updatedAt": "2026-11-09T08:22:03.544Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/05 存储层次：Cache 与虚拟内存",
       "title": "05 存储层次：Cache 与虚拟内存",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:43:17.394Z"
+      "updatedAt": "2026-11-09T08:22:03.544Z"
+    },
+    {
+      "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/06 异常、中断与特权级",
+      "title": "06 异常、中断与特权级",
+      "section": "大学学习",
+      "updatedAt": "2026-11-09T08:22:03.548Z"
     },
     {
       "slug": "大学学习/进行中/26-27秋冬学期/计算机组成/计算机组成 课程总览",
       "title": "计算机组成 课程总览",
       "section": "大学学习",
-      "updatedAt": "2026-10-12T15:43:31.475Z"
+      "updatedAt": "2026-11-09T08:22:03.549Z"
     }
   ],
   "links": {
@@ -253,6 +259,7 @@
     "03 risc-v 指令系统": "大学学习/进行中/26-27秋冬学期/计算机组成/03 RISC-V 指令系统",
     "04 处理器：单周期与流水线": "大学学习/进行中/26-27秋冬学期/计算机组成/04 处理器：单周期与流水线",
     "05 存储层次：cache 与虚拟内存": "大学学习/进行中/26-27秋冬学期/计算机组成/05 存储层次：Cache 与虚拟内存",
+    "06 异常、中断与特权级": "大学学习/进行中/26-27秋冬学期/计算机组成/06 异常、中断与特权级",
     "计算机组成 课程总览": "大学学习/进行中/26-27秋冬学期/计算机组成/计算机组成 课程总览"
   },
   "assets": {
@@ -365,22 +372,22 @@
     "co-ch3-hvdsft0e.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-HVDSFt0e.png",
     "co-ch3-lrrht6l4.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-LrRHT6l4.png",
     "co-ch3-ckpqxfyu.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-cKPQXFYu.png",
-    "co-ch3-hgsnu9rl.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-HgSNu9rL.png",
     "co-ch3-kcgbrnlp.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-KcGbrnLp.png",
     "co-ch3-iygimvey.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-Iygimvey.png",
-    "co-ch3-ablaj0cn.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-ABLaJ0cn.png",
+    "co-ch3-cpr6msee.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-cPr6MSEe.png",
+    "co-ch3-jjymiuay.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-jjYmiuAy.png",
     "co-ch3-bucump8l.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-bUcump8l.png",
+    "co-ch3-cybpip5o.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-cYBpIP5o.png",
     "co-ch3-sfba4dmg.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-sFba4Dmg.png",
     "co-ch3-ut3o9ggp.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-ut3O9gGP.png",
     "co-ch3-xyw3fyud.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-XYw3FYUD.png",
     "co-ch3-607bhjlv.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-607BHJlv.png",
-    "co-ch3-cybpip5o.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-cYBpIP5o.png",
-    "co-ch3-cpr6msee.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-cPr6MSEe.png",
-    "co-ch3-jjymiuay.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-jjYmiuAy.png",
+    "co-ch3-hgsnu9rl.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-HgSNu9rL.png",
+    "co-ch3-ablaj0cn.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch3-ABLaJ0cn.png",
     "co-ch4-8m8kk7ar.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-8m8KK7Ar.png",
-    "co-ch4-amfoclym.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-amfocLym.png",
     "co-ch4-nfsqag0l.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-nfSQAg0L.png",
     "co-ch4-w8o0eh27.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-w8O0EH27.png",
+    "co-ch4-amfoclym.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-amfocLym.png",
     "co-ch4-juhnbdjd.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-JuhnbDJd.png",
     "co-ch4-969ytfxs.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-969YtfxS.png",
     "co-ch4-gttikens.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-Gttikens.png",
@@ -390,8 +397,9 @@
     "co-ch4-eawxd06s.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-EAWXD06S.png",
     "co-ch4-swlhyxuw.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-swLHYXUw.png",
     "co-ch4-nwwf9hns.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-NwWf9hns.png",
-    "co-ch4-gxllw0vr.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-gXlLw0vr.png",
+    "co-ch4-nirsopgm.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-NIrsoPGm.png",
     "co-ch4-mn5um6id.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-MN5uM6ID.png",
+    "co-ch4-gxllw0vr.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-gXlLw0vr.png",
     "co-ch4-rk45a20k.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-RK45A20K.png",
     "co-ch4-mdbag3zn.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-mDBaG3zn.png",
     "co-ch4-er4z1al3.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-er4z1aL3.png",
@@ -401,7 +409,6 @@
     "co-ch4-mswvpgrk.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-msWVpgrK.png",
     "co-ch4-juukfftc.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-juukFftc.png",
     "co-ch4-lcqgxcgf.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-lcqgxCgf.png",
-    "co-ch4-nirsopgm.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch4-NIrsoPGm.png",
     "co-ch5-zcczk4k0.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch5-ZcczK4K0.png",
     "co-ch5-xqhomhlb.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch5-XQHOmHlB.png",
     "co-ch5-pcnbpy7s.png": "/notes-assets/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90/co-ch5-PCNbpY7S.png",
